@@ -36,7 +36,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // Static Folder
-app.use(express.static(path.join(__dirname, '../frontend')));
+const staticPath = process.env.VERCEL 
+  ? path.join(process.cwd(), 'frontend') 
+  : path.join(__dirname, '../frontend');
+  
+app.use(express.static(staticPath));
 
 // API Routes
 app.use('/api/v1', routes);
