@@ -732,18 +732,18 @@ const Views = {
                     <h1>Student <span style="font-weight: 300; opacity: 0.6">Intelligence Hub</span></h1>
                 </header>
 
-                <div class="summary-grid">
-                    <div class="glass-card summary-card">
-                        <div class="value">${summary.totalUpcoming || 0}</div>
-                        <div class="label">Upcoming Exams</div>
+                <div class="stats-grid">
+                    <div class="glass-card stat-item">
+                        <div class="stat-value">${summary.totalUpcoming || 0}</div>
+                        <div class="stat-label">Upcoming Exams</div>
                     </div>
-                    <div class="glass-card summary-card">
-                        <div class="value">${summary.totalCompleted || 0}</div>
-                        <div class="label">Completed</div>
+                    <div class="glass-card stat-item">
+                        <div class="stat-value">${summary.totalCompleted || 0}</div>
+                        <div class="stat-label">Completed</div>
                     </div>
-                    <div class="glass-card summary-card">
-                         <div class="value">${summary.lastScore !== 'N/A' ? summary.lastScore + '%' : 'N/A'}</div>
-                         <div class="label">Latest Score</div>
+                    <div class="glass-card stat-item">
+                         <div class="stat-value">${summary.lastScore !== 'N/A' ? summary.lastScore + '%' : 'N/A'}</div>
+                         <div class="stat-label">Latest Score</div>
                     </div>
                 </div>
 
@@ -765,10 +765,10 @@ const Views = {
                     <div>
                         <h3>Recent Signals</h3>
                         <div class="glass-card" style="padding: 2rem; margin-top: 2rem">
-                             ${results.length > 0 ? results.map(r => `
-                                <div style="margin-bottom: 1.5rem">
+                             ${results.length > 0 ? results.map((r, i) => `
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; padding-bottom: 1rem; ${i !== results.length - 1 ? 'border-bottom: 1px solid var(--surface-border)' : ''}">
                                     <div style="font-weight: 700">${r.exam_title}</div>
-                                    <div style="color: ${r.status === 'Pass' ? 'var(--success)' : 'var(--error)'}">${r.score}%</div>
+                                    <div class="badge" style="background: ${r.status === 'Pass' ? 'var(--success-glow)' : 'var(--error-glow)'}; color: ${r.status === 'Pass' ? 'var(--success)' : 'var(--error)'}">${r.score}%</div>
                                 </div>
                              `).join('') : '<p>No recent signals.</p>'}
                         </div>

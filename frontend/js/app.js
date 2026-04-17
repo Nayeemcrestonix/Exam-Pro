@@ -1511,9 +1511,9 @@ const App = {
             localStorage.removeItem('active_exam_id');
             this.showToast('Diagnostic metrics submitted successfully', 'success');
             
-            // Short delay to ensure background grading is finalized before we fetch the scorecard
+            // Redirect to home page after submission
             setTimeout(() => {
-                window.location.hash = `#/results/review/${attemptId}`;
+                window.location.hash = `#/student/dashboard`;
             }, 500);
         } catch (e) {
             console.error(e);

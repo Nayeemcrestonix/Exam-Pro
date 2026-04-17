@@ -162,6 +162,7 @@ h1, h2, h3, h4 {
 .logo span {
   background: var(--primary-gradient);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -194,6 +195,7 @@ h1, h2, h3, h4 {
   margin-bottom: 0.5rem;
   background: linear-gradient(to bottom, #fff, #94a3b8);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -311,8 +313,6 @@ h1, h2, h3, h4 {
   transition: all 0.3s ease;
   color: var(--text);
   font-size: 1.25rem;
-}
-
 }
 
 /* --- Navigation & Professional UI Extensions --- */
