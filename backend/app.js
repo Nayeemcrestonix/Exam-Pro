@@ -9,6 +9,10 @@ const config = require('./config/config');
 
 const app = express();
 
+// Initialize Database connection (essential for Vercel/Serverless)
+const { connectDB } = require('./config/db');
+connectDB();
+
 // Security Middlewares
 app.use(helmet({
   contentSecurityPolicy: {
