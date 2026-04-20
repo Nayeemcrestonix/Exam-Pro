@@ -23,7 +23,7 @@ const Views = {
                     <p class="text-muted" style="font-size: 1.25rem; max-width: 700px; margin: 2rem auto">Professional certifications, skill validation, and academic excellence platform.</p>
                     <div style="display: flex; gap: 1.5rem; justify-content: center; margin-top: 3rem">
                         <a href="#/exams" class="btn btn-primary" style="padding: 1.25rem 3rem; font-size: 1.1rem">Browse Exams</a>
-                        <a href="#/register" class="btn btn-secondary" style="padding: 1.25rem 3rem; font-size: 1.1rem">Join Student Portal</a>
+                        <a href="#/register" class="btn btn-secondary" style="padding: 1.25rem 3rem; font-size: 1.1rem">Sign Up</a>
                     </div>
                 </div>
             </div>
@@ -34,19 +34,24 @@ const Views = {
         return `
             <div class="container section-padding animate-up">
                 <div class="feature-card" style="max-width: 450px; margin: 0 auto; padding: 4rem">
-                    <h2 style="font-size: 2.5rem; margin-bottom: 3rem">Candidate Login</h2>
+                        <div style="text-align: center; margin-bottom: 3rem;">
+                            <h2 style="font-size: 2.5rem; margin-bottom: 0.5rem">Welcome Back</h2>
+                            <p class="text-muted" style="font-size: 1.1rem;">Login to your account to continue</p>
+                        </div>
                     <form onsubmit="App.handleLogin(event)" style="text-align: left">
                         <div style="margin-bottom: 1.5rem">
-                            <label style="display: block; margin-bottom: 0.75rem; font-weight: 700">Email Address</label>
+                            <label style="display: block; margin-bottom: 0.75rem; font-weight: 600; color: var(--text-muted)">Email Address</label>
                             <input type="email" name="email" style="width: 100%; padding: 1.25rem; border-radius: 1rem; background: var(--surface); border: 2px solid var(--surface-border); color: var(--text)" required>
                         </div>
                         <div style="margin-bottom: 2rem">
-                            <label style="display: block; margin-bottom: 0.75rem; font-weight: 700">Security Key</label>
+                            <label style="display: block; margin-bottom: 0.75rem; font-weight: 600; color: var(--text-muted)">Password</label>
                             <input type="password" name="password" style="width: 100%; padding: 1.25rem; border-radius: 1rem; background: var(--surface); border: 2px solid var(--surface-border); color: var(--text)" required>
                         </div>
-                        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1.25rem">Authenticate</button>
+                        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1.25rem; font-size: 1.1rem; font-weight: 600; margin-top: 1rem">Login</button>
                     </form>
-                    <p style="margin-top: 3rem" class="text-muted">New? <a href="#/register" class="text-primary" style="font-weight: 700">Apply for Access</a></p>
+                    <div style="margin-top: 2.5rem; text-align: center; border-top: 1px solid var(--surface-border); padding-top: 2rem;">
+                        <p class="text-muted" style="margin: 0">Don't have an account? <a href="#/register" style="color: var(--primary); font-weight: 600; text-decoration: none;">Sign up</a></p>
+                    </div>
                 </div>
             </div>
         `;
@@ -56,54 +61,62 @@ const Views = {
         return `
             <div class="container section-padding animate-up">
                 <div class="feature-card" style="max-width: 450px; margin: 0 auto; padding: 4rem">
-                    <h2 style="font-size: 2.5rem; margin-bottom: 3rem">Account Registration</h2>
+                    <div style="text-align: center; margin-bottom: 3rem;">
+                        <h2 style="font-size: 2.5rem; margin-bottom: 0.5rem">Create Account</h2>
+                        <p class="text-muted" style="font-size: 1.1rem;">Sign up to get started</p>
+                    </div>
                     <form onsubmit="App.handleRegister(event)" style="text-align: left">
                          <div style="margin-bottom: 1.5rem">
-                            <label style="display: block; margin-bottom: 0.75rem; font-weight: 700">Full Name</label>
-                            <input type="text" name="name" style="width: 100%; padding: 1.5rem; border-radius: 1rem; background: var(--surface); border: 1px solid var(--surface-border); color: var(--text)" required>
+                            <label style="display: block; margin-bottom: 0.75rem; font-weight: 600; color: var(--text-muted)">Full Name</label>
+                            <input type="text" name="name" style="width: 100%; padding: 1.25rem; border-radius: 1rem; background: var(--surface); border: 2px solid var(--surface-border); color: var(--text)" required>
                         </div>
                         <div style="margin-bottom: 1.5rem">
-                            <label style="display: block; margin-bottom: 0.75rem; font-weight: 700">Email</label>
-                            <input type="email" name="email" style="width: 100%; padding: 1.5rem; border-radius: 1rem; background: var(--surface); border: 1px solid var(--surface-border); color: var(--text)" required>
+                            <label style="display: block; margin-bottom: 0.75rem; font-weight: 600; color: var(--text-muted)">Email Address</label>
+                            <input type="email" name="email" style="width: 100%; padding: 1.25rem; border-radius: 1rem; background: var(--surface); border: 2px solid var(--surface-border); color: var(--text)" required>
                         </div>
                         <div style="margin-bottom: 1.5rem">
-                            <label style="display: block; margin-bottom: 0.75rem; font-weight: 700">Password</label>
-                            <input type="password" name="password" style="width: 100%; padding: 1.5rem; border-radius: 1rem; background: var(--surface); border: 1px solid var(--surface-border); color: var(--text)" required>
+                            <label style="display: block; margin-bottom: 0.75rem; font-weight: 600; color: var(--text-muted)">Password</label>
+                            <input type="password" name="password" style="width: 100%; padding: 1.25rem; border-radius: 1rem; background: var(--surface); border: 2px solid var(--surface-border); color: var(--text)" required>
                         </div>
                         <div style="margin-bottom: 2.5rem">
-                            <label style="display: block; margin-bottom: 0.75rem; font-weight: 700">Role Selection</label>
-                            <select name="role" style="width: 100%; padding: 1.5rem; border-radius: 1rem; background: var(--surface); border: 1px solid var(--surface-border); color: var(--text)">
-                                <option value="student">Candidate (Student)</option>
-                                <option value="admin">Platform Authority (Admin)</option>
+                            <label style="display: block; margin-bottom: 0.75rem; font-weight: 600; color: var(--text-muted)">Select Your Role</label>
+                            <select name="role" style="width: 100%; padding: 1.25rem; border-radius: 1rem; background: var(--surface); border: 2px solid var(--surface-border); color: var(--text)">
+                                <option value="student">Student</option>
+                                <option value="admin">Administrator</option>
                             </select>
                         </div>
-                        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1.5rem">Initialize Profile</button>
+                        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1.25rem; font-size: 1.1rem; font-weight: 600; margin-top: 1rem">Sign Up</button>
                     </form>
+                    <div style="margin-top: 2.5rem; text-align: center; border-top: 1px solid var(--surface-border); padding-top: 2rem;">
+                        <p class="text-muted" style="margin: 0">Already have an account? <a href="#/login" style="color: var(--primary); font-weight: 600; text-decoration: none;">Login instead</a></p>
+                    </div>
                 </div>
             </div>
         `;
     },
 
     adminHome(data) {
+        const user = Auth.getUser() || { name: 'Administrator', role: 'admin' };
         return `
             <div class="container section-padding animate-up" style="text-align: left">
-                <header style="margin-bottom: 4rem; display: flex; justify-content: space-between; align-items: flex-end">
+                <header style="margin-bottom: 4rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--surface-border); padding-bottom: 2rem;">
                     <div>
-                        <h1 style="margin: 0">Platform <span style="font-weight: 300; opacity: 0.5">Authority Dashboard</span></h1>
+                        <h1 style="margin: 0; font-size: 2.5rem; font-weight: 800;">Welcome back, ${user.name}</h1>
+                        <p class="text-muted" style="margin-top: 0.5rem; font-size: 1.1rem;"><span style="background: var(--primary-glow); color: var(--primary); padding: 0.3rem 0.8rem; border-radius: 50px; font-size: 0.8rem; font-weight: 700; margin-right: 0.5rem; text-transform: uppercase;">Admin</span> Platform Overview & Intelligence</p>
                     </div>
                 </header>
 
-                <div class="stats-grid" style="margin-bottom: 5rem">
-                    <div class="feature-card" style="padding: 2.5rem">
-                        <div class="text-muted" style="font-size: 0.75rem; font-weight: 700; margin-bottom: 0.5rem">TOTAL EXAMS</div>
-                        <div style="font-size: 3rem; font-weight: 800; color: var(--primary)">${data.totalExams || 0}</div>
+                <div class="stats-grid" style="margin-bottom: 5rem; gap: 2rem;">
+                    <div class="feature-card" style="padding: 2.5rem; display: flex; flex-direction: column; justify-content: center;">
+                        <div class="text-muted" style="font-size: 0.85rem; font-weight: 700; margin-bottom: 0.5rem; text-transform: uppercase;">Total Exams</div>
+                        <div style="font-size: 3.5rem; font-weight: 800; color: var(--primary); line-height: 1;">${data.totalExams || 0}</div>
                     </div>
-                    <div class="feature-card" style="padding: 2.5rem">
-                        <div class="text-muted" style="font-size: 0.75rem; font-weight: 700; margin-bottom: 0.5rem">TOTAL CANDIDATES</div>
-                        <div style="font-size: 3rem; font-weight: 800">${data.totalStudents || 0}</div>
+                    <div class="feature-card" style="padding: 2.5rem; display: flex; flex-direction: column; justify-content: center;">
+                        <div class="text-muted" style="font-size: 0.85rem; font-weight: 700; margin-bottom: 0.5rem; text-transform: uppercase;">Total Students</div>
+                        <div style="font-size: 3.5rem; font-weight: 800; line-height: 1;">${data.totalStudents || 0}</div>
                     </div>
-                    <div class="feature-card" style="padding: 2.5rem">
-                        <div class="text-muted" style="font-size: 0.75rem; font-weight: 700; margin-bottom: 0.5rem">TOTAL SUBMISSIONS</div>
+                    <div class="feature-card" style="padding: 2.5rem; display: flex; flex-direction: column; justify-content: center;">
+                        <div class="text-muted" style="font-size: 0.85rem; font-weight: 700; margin-bottom: 0.5rem; text-transform: uppercase;">Total Submissions</div>
                         <div style="font-size: 3rem; font-weight: 800; color: var(--success)">${data.totalSubmissions || 0}</div>
                     </div>
                 </div>
@@ -134,9 +147,12 @@ const Views = {
     adminExams(exams) {
         return `
             <div class="container section-padding animate-up" style="text-align: left">
-                <header style="margin-bottom: 5rem; display: flex; justify-content: space-between; align-items: center">
-                    <h1>Active <span style="font-weight: 300; opacity: 0.5">Certifications</span></h1>
-                    <button class="btn btn-primary" onclick="window.location.hash='#/admin/exams/new'">Initialize Exam</button>
+                <header style="margin-bottom: 4rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--surface-border); padding-bottom: 2rem;">
+                    <div>
+                        <h1 style="margin: 0; font-size: 2.5rem; font-weight: 800;">Exam Management</h1>
+                        <p class="text-muted" style="margin-top: 0.5rem; font-size: 1.1rem;">Create, edit, and manage all active certifications.</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="window.location.hash='#/admin/exams/new'"><i class="fas fa-plus"></i> Create Exam</button>
                 </header>
 
                 <div class="feature-card" style="padding: 0; overflow: hidden">
@@ -182,10 +198,13 @@ const Views = {
     adminStudents(students) {
         return `
             <div class="container section-padding animate-up" style="text-align: left">
-                <header style="margin-bottom: 4rem; display: flex; justify-content: space-between; align-items: center">
-                    <h1>Student <span style="font-weight: 300; opacity: 0.5">Manifest</span></h1>
+                <header style="margin-bottom: 4rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--surface-border); padding-bottom: 2rem;">
+                    <div>
+                        <h1 style="margin: 0; font-size: 2.5rem; font-weight: 800;">Student Directory</h1>
+                        <p class="text-muted" style="margin-top: 0.5rem; font-size: 1.1rem;">View and manage registered candidates.</p>
+                    </div>
                     <div style="display: flex; gap: 1rem">
-                         <input type="text" id="student-search-input" placeholder="Search by name or email..." style="width: 300px; padding: 1.25rem 2rem; border-radius: 1rem; background: var(--background); border: 2px solid var(--surface-border); color: var(--text)" oninput="App.handleStudentSearch(this.value)">
+                         <input type="text" id="student-search-input" placeholder="Search by name or email..." style="width: 300px; padding: 1.25rem 2rem; border-radius: 1rem; background: var(--surface); border: 2px solid var(--surface-border); color: var(--text)" oninput="App.handleStudentSearch(this.value)">
                     </div>
                 </header>
 
@@ -223,11 +242,14 @@ const Views = {
     adminResults(exams, selectedExamId = '', analytics = null) {
         return `
             <div class="container section-padding animate-up" style="text-align: left">
-                <header style="margin-bottom: 5rem; display: flex; justify-content: space-between; align-items: center">
-                    <h1>Academic <span style="font-weight: 300; opacity: 0.5">Performance Intelligence</span></h1>
+                <header style="margin-bottom: 4rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--surface-border); padding-bottom: 2rem;">
+                    <div>
+                        <h1 style="margin: 0; font-size: 2.5rem; font-weight: 800;">Performance Analytics</h1>
+                        <p class="text-muted" style="margin-top: 0.5rem; font-size: 1.1rem;">Analyze academic results and score distributions.</p>
+                    </div>
                     <div style="display: flex; gap: 1.5rem">
-                         <select id="analytics-exam-selector" class="btn btn-secondary" style="background: var(--surface); color: var(--text); border: 1px solid var(--surface-border)" onchange="App.loadAdminAnalytics(this.value)">
-                            <option value="">Select Assessment Hub</option>
+                         <select id="analytics-exam-selector" class="btn btn-secondary" style="background: var(--surface); color: var(--text); border: 1px solid var(--surface-border); font-weight: 600;" onchange="App.loadAdminAnalytics(this.value)">
+                            <option value="">Select an Exam</option>
                             ${exams.map(e => `<option value="${e.id}" ${selectedExamId == e.id ? 'selected' : ''}>${e.title}</option>`).join('')}
                          </select>
                          <button class="btn btn-primary" onclick="App.exportResultsToExcel(${selectedExamId})"><i class="fas fa-file-excel"></i> Export Analytics</button>
@@ -494,46 +516,89 @@ const Views = {
 
     authLinks(user) {
         if (!user) return `
-            <a href="#/login" class="btn-nav">Sign In</a>
-            <a href="#/register" class="btn btn-primary">Initialize Access</a>
+            <a href="#/login" class="btn-nav">Login</a>
+            <a href="#/register" class="btn btn-primary">Sign Up</a>
         `;
 
         if (user.role === 'admin') {
             return `
-                <a href="#/admin/home" class="btn-nav">Dashboard</a>
-                <a href="#/admin/exams" class="btn-nav">Manage Exams</a>
-                <a href="#/admin/students" class="btn-nav">Students</a>
-                <a href="#/admin/results" class="btn-nav">Analytics</a>
-                <div onclick="Auth.logout()" class="btn-logout" title="Exit Platform"><i class="fas fa-power-off"></i></div>
+                <div style="display: flex; gap: 2rem; align-items: center">
+                    <nav style="display: flex; gap: 1.5rem; align-items: center;">
+                        <a href="#/admin/home" class="btn-nav">Dashboard</a>
+                        <a href="#/admin/exams" class="btn-nav">Manage Exams</a>
+                        <a href="#/admin/students" class="btn-nav">Students</a>
+                        <a href="#/admin/results" class="btn-nav">Analytics</a>
+                    </nav>
+                    <div style="width: 1px; height: 30px; background: var(--surface-border); margin: 0 0.5rem"></div>
+                    <div class="user-profile-menu" style="display: flex; align-items: center; gap: 1rem;">
+                        <div style="text-align: right; display: flex; flex-direction: column; line-height: 1.2">
+                            <span style="font-weight: 800; font-size: 1rem; color: #ffffff; text-shadow: 0 1px 2px rgba(0,0,0,0.3);">${user.name}</span>
+                            <span class="text-primary" style="font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">Administrator</span>
+                        </div>
+                        <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--primary-gradient); ${user.profile_pic ? `background-image: url('${user.profile_pic}'); background-size: cover; background-position: center;` : ''} display: flex; align-items: center; justify-content: center; font-weight: bold; color: white;">
+                            ${user.profile_pic ? '' : (user.name ? user.name.charAt(0).toUpperCase() : 'A')}
+                        </div>
+                        <button onclick="Auth.logout()" class="btn btn-secondary btn-sm" style="margin-left: 0.5rem; padding: 0.6rem 1rem; border-color: var(--surface-border)">
+                            Logout <i class="fas fa-sign-out-alt" style="margin-left: 0.3rem;"></i>
+                        </button>
+                    </div>
+                </div>
             `;
         }
 
         return `
             <div style="display: flex; gap: 2rem; align-items: center">
-                <nav style="display: flex; gap: 1.5rem; align-items: center; padding-right: 2rem">
+                <nav style="display: flex; gap: 1.5rem; align-items: center;">
                     <a href="#/student/dashboard" class="btn-nav">Dashboard</a>
                     <a href="#/exams" class="btn-nav">Exams</a>
+                    <a href="#/question-bank" class="btn-nav">Question Bank</a>
                     <a href="#/leaderboard" class="btn-nav">Leaderboard</a>
                     <a href="#/history" class="btn-nav">History</a>
                 </nav>
-                <div onclick="Auth.logout()" class="btn-logout" title="De-authorize Session"><i class="fas fa-sign-out-alt"></i></div>
+                <div style="width: 1px; height: 30px; background: var(--surface-border); margin: 0 0.5rem"></div>
+                <div class="user-profile-menu" style="display: flex; align-items: center; gap: 1rem;">
+                    <div style="text-align: right; display: flex; flex-direction: column; line-height: 1.2">
+                        <span style="font-weight: 800; font-size: 1rem; color: #ffffff; text-shadow: 0 1px 2px rgba(0,0,0,0.3);">${user.name}</span>
+                        <span style="color: #94a3b8; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">Student</span>
+                    </div>
+                    <a href="#/profile" style="text-decoration: none;">
+                        <div style="width: 40px; height: 40px; border-radius: 50%; background-color: var(--surface-border); ${user.profile_pic ? `background-image: url('${user.profile_pic}'); background-size: cover; background-position: center;` : ''} display: flex; align-items: center; justify-content: center; font-weight: bold; color: var(--text); overflow: hidden; cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                            ${user.profile_pic ? '' : (user.name ? user.name.charAt(0).toUpperCase() : 'S')}
+                        </div>
+                    </a>
+                    <button onclick="Auth.logout()" class="btn btn-secondary btn-sm" style="margin-left: 0.5rem; padding: 0.6rem 1rem; border-color: var(--surface-border)">
+                        Logout <i class="fas fa-sign-out-alt" style="margin-left: 0.3rem;"></i>
+                    </button>
+                </div>
             </div>
         `;
     },
 
     examsPage(exams) {
+        const isAdmin = Auth.getUser()?.role === 'admin';
         return `
             <div class="container section-padding animate-up" style="text-align: left">
                 <header style="margin-bottom: 5rem">
-                    <h1>Certification <span style="font-weight: 300; opacity: 0.5">Catalog</span></h1>
+                    <h1 style="margin: 0; font-size: 2.5rem; font-weight: 800;">Certification <span style="font-weight: 300; opacity: 0.5">Catalog</span></h1>
                 </header>
 
                 <div class="stats-grid" style="grid-template-columns: repeat(auto-fill, minmax(350px, 1fr))">
                     ${exams.map(e => `
                         <div class="feature-card" style="padding: 3rem">
-                             <h2 style="margin-bottom: 1.5rem">${e.title}</h2>
-                             <div style="margin-bottom: 2rem; color: var(--text-muted)">Duration: ${e.duration} MIN</div>
-                             <button class="btn btn-primary" style="width: 100%" onclick="App.startExam(${e.id})">Take Exam</button>
+                             <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1.5rem">
+                                 <h2 style="margin: 0; font-size: 1.4rem;">${e.title}</h2>
+                                 <span class="badge" style="background: ${e.is_published ? 'var(--success-glow)' : 'var(--error-glow)'}; color: ${e.is_published ? 'var(--success)' : 'var(--error)'}; font-size: 0.7rem; padding: 0.4rem 1rem;">${e.is_published ? 'PUBLISHED' : 'DRAFT'}</span>
+                             </div>
+                             <div style="margin-bottom: 2rem; color: var(--text-muted)"><i class="far fa-clock" style="margin-right: 0.5rem"></i> Duration: ${e.duration} MIN</div>
+                             ${isAdmin 
+                                 ? `<button class="btn btn-primary" style="width: 100%" onclick="window.location.hash='#/admin/exams/edit/${e.id}'">Edit Exam</button>`
+                                 : (e.attempt_id 
+                                     ? `<button class="btn btn-secondary" style="width: 100%; border-color: var(--success); color: var(--success); opacity: 0.8; pointer-events: none;">Already Completed <i class="fas fa-check" style="margin-left:0.5rem"></i></button>`
+                                     : (e.start_time && new Date(e.start_time) > new Date()
+                                         ? `<div class="btn btn-secondary realtime-timer" style="width: 100%; pointer-events: none; border-color: var(--surface-border); display: flex; justify-content: center; align-items: center;" data-until="${e.start_time}">--:--:--</div>`
+                                         : `<button class="btn btn-primary" style="width: 100%" onclick="App.startExam(${e.id})">Take Exam</button>`)
+                                 )
+                             }
                         </div>
                     `).join('')}
                 </div>
@@ -577,10 +642,47 @@ const Views = {
     },
 
     profileView(user, stats = null) {
+        const avatarUrl = user.profile_pic || '';
+        const initial = user.name ? user.name.charAt(0).toUpperCase() : 'U';
+
         return `
             <div class="container section-padding animate-up" style="max-width: 900px; text-align: left">
-                <h1>${user.name}</h1>
-                <p>${user.email}</p>
+                <header style="margin-bottom: 4rem">
+                    <h1 style="margin: 0; font-size: 2.5rem; font-weight: 800;">User <span style="font-weight: 300; opacity: 0.5">Profile</span></h1>
+                </header>
+
+                <div class="feature-card" style="padding: 4rem; display: flex; gap: 4rem; align-items: flex-start">
+                    <div style="position: relative; width: 150px; height: 150px; flex-shrink: 0;">
+                        <div id="profile-avatar-display" style="width: 100%; height: 100%; border-radius: 50%; background-color: var(--surface-border); ${avatarUrl ? `background-image: url('${avatarUrl}'); background-size: cover; background-position: center;` : ''} display: flex; align-items: center; justify-content: center; font-size: 4rem; font-weight: 800; color: var(--text-muted); overflow: hidden; border: 4px solid var(--surface-border); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                            ${avatarUrl ? '' : initial}
+                        </div>
+                        
+                        <label for="profile-pic-upload" style="position: absolute; bottom: 0; right: 0; background: var(--primary); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 10px rgba(99, 102, 241, 0.4); transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'" title="Change Avatar">
+                            <i class="fas fa-camera"></i>
+                        </label>
+                        <input type="file" id="profile-pic-upload" accept="image/png, image/jpeg, image/webp" style="display: none" onchange="App.handleAvatarUpload(event)">
+                        
+                        ${avatarUrl ? `
+                        <button onclick="App.handleAvatarDelete()" style="position: absolute; bottom: 0; left: 0; background: var(--error); color: white; width: 35px; height: 35px; border-radius: 50%; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 10px rgba(239, 68, 68, 0.4); transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'" title="Remove Avatar">
+                            <i class="fas fa-trash-alt" style="font-size: 0.8rem"></i>
+                        </button>
+                        ` : ''}
+                    </div>
+                    <div style="flex: 1">
+                        <div style="margin-bottom: 2rem">
+                            <label style="display: block; font-size: 0.8rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.5rem;">Full Name</label>
+                            <div style="font-size: 1.5rem; font-weight: 800">${user.name}</div>
+                        </div>
+                        <div style="margin-bottom: 2rem">
+                            <label style="display: block; font-size: 0.8rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.5rem;">Email Address</label>
+                            <div style="font-size: 1.25rem; color: var(--primary); cursor: pointer;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">${user.email}</div>
+                        </div>
+                        <div>
+                            <label style="display: block; font-size: 0.8rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.5rem;">System Role</label>
+                            <div style="display: inline-block; padding: 0.5rem 1rem; border-radius: 50px; background: rgba(255,255,255,0.05); font-weight: 700; font-size: 0.9rem; letter-spacing: 0.05em; text-transform: uppercase;">${user.role}</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         `;
     },
@@ -725,54 +827,98 @@ const Views = {
     },
 
     studentDashboard(data) {
+        const user = Auth.getUser() || { name: 'Student' };
         const { summary = {}, upcoming = [], results = [] } = data;
         return `
-            <div class="container animate-up">
-                <header style="margin-bottom: 4rem">
-                    <h1>Student <span style="font-weight: 300; opacity: 0.6">Intelligence Hub</span></h1>
+            <div class="container section-padding animate-up" style="text-align: left">
+                <header style="margin-bottom: 4rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--surface-border); padding-bottom: 2rem;">
+                    <div>
+                        <h1 style="margin: 0; font-size: 2.5rem; font-weight: 800;">Welcome back, ${user.name}</h1>
+                        <p class="text-muted" style="margin-top: 0.5rem; font-size: 1.1rem;"><span style="background: var(--surface-border); color: var(--text); padding: 0.3rem 0.8rem; border-radius: 50px; font-size: 0.8rem; font-weight: 700; margin-right: 0.5rem; text-transform: uppercase;">Student</span> Academic Dashboard</p>
+                    </div>
                 </header>
 
-                <div class="stats-grid">
-                    <div class="glass-card stat-item">
-                        <div class="stat-value">${summary.totalUpcoming || 0}</div>
-                        <div class="stat-label">Upcoming Exams</div>
+                <div class="stats-grid" style="margin-bottom: 5rem; gap: 2rem;">
+                    <div class="feature-card" style="padding: 2.5rem; display: flex; flex-direction: column; justify-content: center;">
+                        <div class="text-muted" style="font-size: 0.85rem; font-weight: 700; margin-bottom: 0.5rem; text-transform: uppercase;">Upcoming Exams</div>
+                        <div style="font-size: 3.5rem; font-weight: 800; color: var(--primary); line-height: 1;">${summary.totalUpcoming || 0}</div>
                     </div>
-                    <div class="glass-card stat-item">
-                        <div class="stat-value">${summary.totalCompleted || 0}</div>
-                        <div class="stat-label">Completed</div>
+                    <div class="feature-card" style="padding: 2.5rem; display: flex; flex-direction: column; justify-content: center;">
+                        <div class="text-muted" style="font-size: 0.85rem; font-weight: 700; margin-bottom: 0.5rem; text-transform: uppercase;">Completed Exams</div>
+                        <div style="font-size: 3.5rem; font-weight: 800; line-height: 1;">${summary.totalCompleted || 0}</div>
                     </div>
-                    <div class="glass-card stat-item">
-                         <div class="stat-value">${summary.lastScore !== 'N/A' ? summary.lastScore + '%' : 'N/A'}</div>
-                         <div class="stat-label">Latest Score</div>
+                    <div class="feature-card" style="padding: 2.5rem; display: flex; flex-direction: column; justify-content: center;">
+                        <div class="text-muted" style="font-size: 0.85rem; font-weight: 700; margin-bottom: 0.5rem; text-transform: uppercase;">Latest Score</div>
+                        <div style="font-size: 3.5rem; font-weight: 800; color: var(--success); line-height: 1;">${summary.lastScore !== 'N/A' ? Math.round(summary.lastScore) + '%' : '--'}</div>
                     </div>
                 </div>
 
-                <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2.5rem; margin-top: 4rem">
+                <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 4rem; margin-bottom: 5rem;">
                     <div>
-                        <h3>Live Manifest</h3>
-                        <div style="display: grid; gap: 1.25rem; margin-top: 2rem">
+                        <h2 style="margin-bottom: 2rem; font-size: 1.8rem;">Upcoming Exams</h2>
+                        <div style="display: grid; gap: 1.5rem;">
                             ${upcoming.length > 0 ? upcoming.map(e => `
-                                <div class="glass-card" style="padding: 2rem; display: flex; justify-content: space-between; align-items: center">
-                                    <div>
-                                        <h4>${e.title}</h4>
-                                        <p style="color: grey">${e.duration} MIN</p>
+                                <div class="feature-card" style="padding: 2rem; display: flex; justify-content: space-between; align-items: center; border-left: 4px solid var(--primary);">
+                                    <div style="text-align: left;">
+                                        <h4 style="font-size: 1.25rem; margin-bottom: 0.5rem;">${e.title}</h4>
+                                        <p class="text-muted" style="font-size: 0.9rem;"><i class="far fa-clock" style="margin-right: 0.5rem;"></i> ${e.duration} Minutes</p>
                                     </div>
-                                    <button class="btn btn-primary" onclick="window.location.hash='#/exam/${e.id}'">Start Protocol</button>
+                                    ${e.start_time && new Date(e.start_time) > new Date()
+                                        ? `<div class="btn btn-secondary realtime-timer" style="pointer-events: none; border-color: var(--surface-border); padding: 0.75rem 2rem; display: flex; justify-content: center; align-items: center; min-width: 140px;" data-until="${e.start_time}">--:--:--</div>`
+                                        : `<button class="btn btn-primary" onclick="window.location.hash='#/exam/${e.id}'">Start Exam</button>`
+                                    }
                                 </div>
-                            `).join('') : '<p>No upcoming exams.</p>'}
+                            `).join('') : '<div class="feature-card" style="padding: 3rem; text-align: center; color: var(--text-muted);">No upcoming exams scheduled.</div>'}
                         </div>
                     </div>
-                    <div>
-                        <h3>Recent Signals</h3>
-                        <div class="glass-card" style="padding: 2rem; margin-top: 2rem">
-                             ${results.length > 0 ? results.map((r, i) => `
-                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; padding-bottom: 1rem; ${i !== results.length - 1 ? 'border-bottom: 1px solid var(--surface-border)' : ''}">
-                                    <div style="font-weight: 700">${r.exam_title}</div>
-                                    <div class="badge" style="background: ${r.status === 'Pass' ? 'var(--success-glow)' : 'var(--error-glow)'}; color: ${r.status === 'Pass' ? 'var(--success)' : 'var(--error)'}">${r.score}%</div>
-                                </div>
-                             `).join('') : '<p>No recent signals.</p>'}
+                    <div style="display: flex; flex-direction: column; gap: 3rem;">
+                        <div>
+                            <h2 style="margin-bottom: 2rem; font-size: 1.8rem;">Recent Activity</h2>
+                            <div class="feature-card" style="padding: 0; overflow: hidden;">
+                                 ${results.length > 0 ? results.map((r, i) => `
+                                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 2rem; ${i !== results.length - 1 ? 'border-bottom: 1px solid var(--surface-border)' : ''}">
+                                        <div style="text-align: left;">
+                                            <div style="font-weight: 700; font-size: 1rem;">${r.exam_title}</div>
+                                            <div class="text-muted" style="font-size: 0.8rem; margin-top: 0.25rem;">${new Date(r.submit_time).toLocaleDateString()}</div>
+                                        </div>
+                                        <div style="display: flex; gap: 0.75rem; align-items: center;">
+                                            <div style="padding: 0.4rem 1rem; border-radius: 50px; font-weight: 800; font-size: 0.9rem; background: ${r.status === 'Pass' ? 'var(--success-glow)' : 'var(--error-glow)'}; color: ${r.status === 'Pass' ? 'var(--success)' : 'var(--error)'}">${Math.round(r.score)}%</div>
+                                        </div>
+                                    </div>
+                                 `).join('') : '<div style="padding: 3rem; text-align: center; color: var(--text-muted);">No recent activity.</div>'}
+                            </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        `;
+    },
+
+    studentQuestionBank(results) {
+        return `
+            <div class="container section-padding animate-up" style="text-align: left">
+                <header style="margin-bottom: 5rem">
+                    <h1 style="margin: 0; font-size: 2.5rem; font-weight: 800;">Question <span style="font-weight: 300; opacity: 0.5">Bank</span></h1>
+                    <p class="text-muted" style="margin-top: 0.5rem; font-size: 1.1rem;">Download full study transcripts with correct answers and explanations for exams you have attempted.</p>
+                </header>
+
+                <div class="feature-card" style="padding: 0; overflow: hidden; max-width: 900px;">
+                    ${results.length > 0 ? results.map((r, i) => `
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 2rem; border-bottom: 1px solid var(--surface-border);">
+                        <div style="text-align: left;">
+                            <div style="font-weight: 700; font-size: 1.1rem;"><i class="fas fa-file-pdf text-primary" style="margin-right: 0.5rem"></i> ${r.exam_title}</div>
+                            <div class="text-muted" style="font-size: 0.9rem; margin-top: 0.5rem;">Attempted: ${new Date(r.submit_time).toLocaleDateString()}</div>
+                        </div>
+                        <div style="display: flex; gap: 0.75rem;">
+                            <button class="btn btn-outline" onclick="App.downloadFullExamPDF(${r.id})" style="padding: 0.75rem 1.25rem;" title="Download Complete Question Bank">
+                                <i class="fas fa-book-open" style="margin-right: 0.3rem"></i> Full Bank
+                            </button>
+                            <button class="btn btn-secondary" onclick="App.downloadResultPDF(${r.id})" style="padding: 0.75rem 1.25rem;" title="Download Personal Analytics">
+                                <i class="fas fa-chart-bar" style="margin-right: 0.3rem"></i> Analytics
+                            </button>
+                        </div>
+                    </div>
+                    `).join('') : '<div style="padding: 4rem; text-align: center; color: var(--text-muted); font-size: 1.1rem;">No attempted exams available yet. Take an exam to build your Question Bank.</div>'}
                 </div>
             </div>
         `;

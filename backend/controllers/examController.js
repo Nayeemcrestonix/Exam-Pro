@@ -43,8 +43,9 @@ const createNewExam = asyncHandler(async (req, res) => {
 const getExams = asyncHandler(async (req, res) => {
   // Students only see published exams
   const filter = req.user.role === 'admin' ? {} : { is_published: 1 };
+  const userId = req.user.role === 'admin' ? null : req.user.id;
   
-  const exams = await findAllExams(filter);
+  const exams = await findAllExams(filter, userId);
 
   res.status(200).json({
     success: true,

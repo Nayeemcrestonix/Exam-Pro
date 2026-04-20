@@ -6,6 +6,8 @@ const {
   getMe,
   updateProfile,
   changePassword,
+  updateAvatar,
+  deleteAvatar,
 } = require('../controllers/authController');
 const { protect } = require('../middleware/authMiddleware');
 
@@ -43,5 +45,19 @@ router.put('/profile', protect, updateProfile);
  * @access  Private
  */
 router.put('/change-password', protect, changePassword);
+
+/**
+ * @route   PUT /api/v1/auth/profile/avatar
+ * @desc    Upload avatar
+ * @access  Private
+ */
+router.put('/profile/avatar', protect, updateAvatar);
+
+/**
+ * @route   DELETE /api/v1/auth/profile/avatar
+ * @desc    Delete avatar
+ * @access  Private
+ */
+router.delete('/profile/avatar', protect, deleteAvatar);
 
 module.exports = router;

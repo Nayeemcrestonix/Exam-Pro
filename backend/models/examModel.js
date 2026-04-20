@@ -25,16 +25,24 @@ const createExam = async (examData) => {
  * Get all exams
  * @param {Object} filter - Filter by is_published, etc.
  */
-const findAllExams = async (filter = {}) => {
+const findAllExams = async (filter = {}, userId = null) => {
   let sql = `
     SELECT 
       e.*,
       COUNT(a.id) as attempt_count,
       COALESCE(AVG(a.score), 0) as avg_score
+  `;
+  let args = [];
+
+  if (userId) {
+     sql += `, (SELECT id FROM attempts WHERE user_id = ? AND exam_id = e.id AND submit_time IS NOT NULL LIMIT 1) as attempt_id `;
+     args.push(userId);
+  }
+
+  sql += `
     FROM exams e
     LEFT JOIN attempts a ON e.id = a.exam_id AND a.submit_time IS NOT NULL
   `;
-  let args = [];
 
   if (filter.is_published !== undefined) {
     sql += ' WHERE e.is_published = ?';

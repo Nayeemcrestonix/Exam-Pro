@@ -58,6 +58,7 @@ const connectDB = async () => {
     `);
 
     // Migration for existing tables: Try to add new columns if they don't exist
+    try { await client.execute('ALTER TABLE users ADD COLUMN profile_pic TEXT'); } catch (e) {}
     try { await client.execute('ALTER TABLE questions ADD COLUMN sample_input TEXT'); } catch (e) {}
     try { await client.execute('ALTER TABLE questions ADD COLUMN sample_output TEXT'); } catch (e) {}
     try { await client.execute('ALTER TABLE questions ADD COLUMN constraints TEXT'); } catch (e) {}

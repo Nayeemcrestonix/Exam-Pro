@@ -63,10 +63,24 @@ const updatePassword = async (id, hashedPassword) => {
   });
 };
 
+/**
+ * Update user profile picture
+ * @param {number|string} id 
+ * @param {string} profilePicBase64 
+ */
+const updateProfilePic = async (id, profilePicBase64) => {
+  const result = await client.execute({
+    sql: 'UPDATE users SET profile_pic = ? WHERE id = ? RETURNING *',
+    args: [profilePicBase64, id],
+  });
+  return result.rows[0];
+};
+
 module.exports = {
   findUserByEmail,
   findUserById,
   createUser,
   updateUser,
   updatePassword,
+  updateProfilePic,
 };

@@ -90,17 +90,25 @@ const findAttemptsByUserId = async (userId) => {
  * @param {number|string} id 
  */
 const getDetailedReview = async (id) => {
+  const attemptResult = await client.execute({ sql: `SELECT exam_id FROM attempts WHERE id = ?`, args: [id] });
+  if (!attemptResult.rows.length) return [];
+  const examId = attemptResult.rows[0].exam_id;
+
   const result = await client.execute({
     sql: `SELECT 
             q.question_text, q.type, q.options, q.correct_answer, q.explanation, q.marks,
             ans.answer as user_answer, 
             ans.is_correct, 
             ans.marks_awarded as marks_earned,
-            CASE WHEN ans.is_correct = 1 THEN 'Correct' ELSE 'Incorrect' END as status
-          FROM answers ans
-          JOIN questions q ON ans.question_id = q.id
-          WHERE ans.attempt_id = ?`,
-    args: [id],
+            CASE 
+              WHEN ans.is_correct = 1 THEN 'Correct' 
+              WHEN ans.answer IS NOT NULL THEN 'Incorrect' 
+              ELSE 'Unanswered' 
+            END as status
+          FROM questions q
+          LEFT JOIN answers ans ON ans.question_id = q.id AND ans.attempt_id = ?
+          WHERE q.exam_id = ?`,
+    args: [id, examId],
   });
   return result.rows;
 };

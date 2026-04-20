@@ -101,6 +101,9 @@ const App = {
             this.loadExamsPage();
         } else if (hash === '#/leaderboard') {
             this.loadLeaderboard();
+        } else if (hash === '#/question-bank') {
+            if (!user) { window.location.hash = '#/login'; return; }
+            this.loadQuestionBank();
         } else if (hash === '#/results' || hash === '#/history') {
             if (!user) { window.location.hash = '#/login'; return; }
             this.showHistory(); // Standardizing on showHistory for both
@@ -120,7 +123,7 @@ const App = {
             this.showReview(id);
         } else if (hash.startsWith('#/results/')) {
             const id = hash.split('/')[2];
-            this.downloadResultPDF(id); // Simplified handling for direct PDF download if needed
+            this.showHistory(); // Route not specifically needed, pdf handles overlay
         } else if (hash === '#/login') {
             this.viewContainer.innerHTML = Views.login();
         } else if (hash === '#/register') {
@@ -296,6 +299,159 @@ const App = {
         }
     },
 
+    async downloadResultPDF(attemptId) {
+        this.showLoading(true);
+        try {
+            const res = await API.get(`/attempts/${attemptId}/review`);
+            const data = res.data;
+            const attempt = data.attempt;
+            const review = data.review;
+
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            let y = 20;
+            const margin = 15;
+            const pageWidth = doc.internal.pageSize.getWidth();
+            const maxLineWidth = pageWidth - margin * 2;
+
+            doc.setFontSize(22);
+            doc.text("EliteQuiz - Exam Review Transcript", margin, y);
+            y += 15;
+
+            doc.setFontSize(12);
+            doc.text(`Exam Title: ${attempt.exam_title}`, margin, y);
+            y += 8;
+            doc.text(`Submit Time: ${new Date(attempt.submit_time).toLocaleString()}`, margin, y);
+            y += 8;
+            doc.text(`Score: ${attempt.score}% (${attempt.pass_fail_status})`, margin, y);
+            y += 15;
+
+            const attemptedReview = review.filter(q => q.status !== 'Unanswered');
+
+            attemptedReview.forEach((q, index) => {
+                if (y > 270) {
+                    doc.addPage();
+                    y = 20;
+                }
+
+                doc.setFontSize(12);
+                doc.setFont(undefined, "bold");
+                const qLines = doc.splitTextToSize(`Q${index + 1}: ${q.question_text}`, maxLineWidth);
+                doc.text(qLines, margin, y);
+                y += (qLines.length * 6);
+
+                doc.setFont("Helvetica", "normal");
+                doc.setFontSize(10);
+                
+                const uAnsLines = doc.splitTextToSize(`Your Answer: ${q.user_answer || 'Not Answered'}`, maxLineWidth);
+                const cAnsLines = doc.splitTextToSize(`Correct Answer: ${q.correct_answer || 'N/A'}`, maxLineWidth);
+                
+                doc.setTextColor(q.status === 'Correct' ? 0 : 255, q.status === 'Correct' ? 128 : 0, 0);
+                doc.text(`Status: ${q.status}`, margin, y);
+                doc.setTextColor(0, 0, 0);
+                y += 6;
+
+                doc.text(uAnsLines, margin, y);
+                y += (uAnsLines.length * 5);
+                
+                doc.text(cAnsLines, margin, y);
+                y += (cAnsLines.length * 5);
+                
+                doc.setFontSize(9);
+                doc.setTextColor(100, 100, 100);
+                const explanation = q.explanation ? `Explanation: ${q.explanation}` : 'Explanation: No detailed explanation provided.';
+                const expLines = doc.splitTextToSize(explanation, maxLineWidth);
+                doc.text(expLines, margin, y);
+                y += (expLines.length * 5) + 10;
+                
+                doc.setTextColor(0, 0, 0);
+            });
+
+            doc.save(`${attempt.exam_title.replace(/\\s+/g, '_')}_Transcript.pdf`);
+            this.showToast('Transcript downloaded successfully!', 'success');
+        } catch (err) {
+            console.error('PDF Generation Error:', err);
+            this.showToast('Failed to generate PDF document.', 'error');
+        } finally {
+            this.showLoading(false);
+        }
+    },
+
+    async downloadFullExamPDF(attemptId) {
+        if (!window.jspdf) {
+            this.showToast('PDF compilation library missing', 'error');
+            return;
+        }
+
+        this.showToast('Generating Question Bank PDF...', 'info');
+        this.showLoading(true);
+        try {
+            const res = await API.get(`/attempts/${attemptId}/review`);
+            const data = res.data;
+            const attempt = data.attempt;
+            const review = data.review;
+
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            let y = 20;
+            const margin = 15;
+            const pageWidth = doc.internal.pageSize.getWidth();
+            const maxLineWidth = pageWidth - margin * 2;
+
+            doc.setFontSize(22);
+            doc.text("EliteQuiz - Question Bank", margin, y);
+            y += 15;
+
+            doc.setFontSize(12);
+            doc.text(`Exam Title: ${attempt.exam_title}`, margin, y);
+            y += 8;
+            doc.text(`Total Questions: ${review.length}`, margin, y);
+            y += 15;
+
+            review.forEach((q, index) => {
+                if (y > 270) {
+                    doc.addPage();
+                    y = 20;
+                }
+
+                doc.setFontSize(12);
+                doc.setFont(undefined, "bold");
+                const qLines = doc.splitTextToSize(`Q${index + 1}: ${q.question_text}`, maxLineWidth);
+                doc.text(qLines, margin, y);
+                y += (qLines.length * 6);
+
+                doc.setFont("Helvetica", "normal");
+                doc.setFontSize(10);
+                
+                const cAnsLines = doc.splitTextToSize(`Correct Answer: ${q.correct_answer || 'N/A'}`, maxLineWidth);
+                
+                doc.setTextColor(0, 128, 0); // Green for correct answer in bank
+                doc.text(cAnsLines, margin, y);
+                doc.setTextColor(0, 0, 0);
+                y += (cAnsLines.length * 5);
+                
+                doc.setFontSize(9);
+                doc.setTextColor(100, 100, 100);
+                const explanation = q.explanation ? `Explanation: ${q.explanation}` : 'Explanation: No detailed explanation provided.';
+                const expLines = doc.splitTextToSize(explanation, maxLineWidth);
+                doc.text(expLines, margin, y);
+                y += (expLines.length * 5) + 10;
+                
+                doc.setTextColor(0, 0, 0);
+            });
+
+            doc.save(`${attempt.exam_title.replace(/\s+/g, '_')}_Question_Bank.pdf`);
+            this.showToast('Question Bank downloaded successfully!', 'success');
+        } catch (err) {
+            console.error('PDF Generation Error:', err);
+            this.showToast('Failed to generate PDF document.', 'error');
+        } finally {
+            this.showLoading(false);
+        }
+    },
+
     async showProfile() {
         this.showLoading(true);
         try {
@@ -303,6 +459,94 @@ const App = {
             this.viewContainer.innerHTML = Views.profileView(Auth.getUser(), statsRes.data);
         } catch (e) {
             this.viewContainer.innerHTML = Views.profileView(Auth.getUser(), null);
+        } finally {
+            this.showLoading(false);
+        }
+    },
+
+    async handleAvatarUpload(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        if (!file.type.startsWith('image/')) {
+            this.showToast('Please select a valid image file', 'error');
+            return;
+        }
+
+        this.showToast('Processing image...', 'info');
+        
+        try {
+            const base64Avatar = await new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        
+                        // Compress to 256x256 max
+                        const MAX_SIZE = 256;
+                        let width = img.width;
+                        let height = img.height;
+                        
+                        if (width > height) {
+                            if (width > MAX_SIZE) {
+                                height *= MAX_SIZE / width;
+                                width = MAX_SIZE;
+                            }
+                        } else {
+                            if (height > MAX_SIZE) {
+                                width *= MAX_SIZE / height;
+                                height = MAX_SIZE;
+                            }
+                        }
+                        
+                        canvas.width = width;
+                        canvas.height = height;
+                        ctx.drawImage(img, 0, 0, width, height);
+                        
+                        // Quality 0.7 to heavily reduce base64 size
+                        resolve(canvas.toDataURL('image/jpeg', 0.7));
+                    };
+                    img.onerror = () => reject(new Error('Failed to load image'));
+                    img.src = e.target.result;
+                };
+                reader.onerror = () => reject(new Error('Failed to read file'));
+                reader.readAsDataURL(file);
+            });
+
+            this.showLoading(true);
+            const res = await API.put('/auth/profile/avatar', { profile_pic: base64Avatar });
+            
+            // Update local user store
+            Auth.saveUser(res.data);
+            
+            this.showToast('Profile picture updated!', 'success');
+            
+            // Re-render
+            this.initNav();
+            this.showProfile();
+            
+        } catch (error) {
+            console.error('Avatar upload failed:', error);
+            this.showToast('Failed to upload profile picture', 'error');
+        } finally {
+            this.showLoading(false);
+        }
+    },
+
+    async handleAvatarDelete() {
+        if (!confirm('Are you sure you want to remove your profile picture?')) return;
+        this.showLoading(true);
+        try {
+            const res = await API.delete('/auth/profile/avatar');
+            Auth.saveUser(res.data);
+            this.showToast('Profile picture removed', 'success');
+            this.initNav();
+            this.showProfile();
+        } catch (error) {
+            console.error('Avatar deletion failed:', error);
+            this.showToast('Failed to remove profile picture', 'error');
         } finally {
             this.showLoading(false);
         }
@@ -393,9 +637,51 @@ const App = {
         try {
             const res = await API.get('/exams');
             this.viewContainer.innerHTML = Views.examsPage(res.data);
+            this.startGlobalTimers();
         } finally {
             this.showLoading(false);
         }
+    },
+
+    startGlobalTimers() {
+        if (this.globalTimer) clearInterval(this.globalTimer);
+        const update = () => {
+            const timers = document.querySelectorAll('.realtime-timer');
+            if (timers.length === 0) {
+                clearInterval(this.globalTimer);
+                this.globalTimer = null;
+                return;
+            }
+
+            const now = new Date().getTime();
+            timers.forEach(t => {
+                const target = new Date(t.dataset.until).getTime();
+                const diff = target - now;
+
+                if (diff <= 0) {
+                    t.innerText = "00:00:00";
+                    t.style.color = "var(--success)";
+                    t.style.borderColor = "var(--success)";
+                    if (t.dataset.refreshed !== "true") {
+                        t.dataset.refreshed = "true";
+                        setTimeout(() => this.route(), 1500);
+                    }
+                } else {
+                    const h = Math.floor(diff / (1000 * 60 * 60));
+                    const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                    const s = Math.floor((diff % (1000 * 60)) / 1000);
+                    
+                    const pad = (num) => String(num).padStart(2, '0');
+                    if (h > 0) {
+                        t.innerText = `\u23F3 ${pad(h)}:${pad(m)}:${pad(s)}`;
+                    } else {
+                        t.innerText = `\u23F3 ${pad(m)}:${pad(s)}`;
+                    }
+                }
+            });
+        };
+        update();
+        this.globalTimer = setInterval(update, 1000);
     },
 
     async loadAttemptsPage() {
@@ -438,6 +724,21 @@ const App = {
         } catch (e) {
             console.error('Dashboard load failed:', e);
             this.showToast('Failed to load performance metrics', 'error');
+        } finally {
+            this.showLoading(false);
+        }
+    },
+
+    async loadQuestionBank() {
+        this.showLoading(true);
+        try {
+            const res = await API.get('/results/dashboard');
+            // Assuming results.data or results.data.results contains the exams
+            const results = (res.data && res.data.results) ? res.data.results : res.data || [];
+            this.viewContainer.innerHTML = Views.studentQuestionBank(results);
+        } catch (e) {
+            console.error('Question Bank load failed:', e);
+            this.showToast('Failed to load question bank data', 'error');
         } finally {
             this.showLoading(false);
         }

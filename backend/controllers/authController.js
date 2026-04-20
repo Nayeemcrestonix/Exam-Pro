@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 const asyncHandler = require('express-async-handler');
-const { createUser, findUserByEmail, findUserById, updateUser, updatePassword } = require('../models/userModel');
+const { createUser, findUserByEmail, findUserById, updateUser, updatePassword, updateProfilePic } = require('../models/userModel');
 const { generateToken } = require('../utils/tokenUtils');
 
 /**
@@ -43,6 +43,7 @@ const registerUser = asyncHandler(async (req, res) => {
         name: user.name,
         email: user.email,
         role: user.role,
+        profile_pic: user.profile_pic,
         token: generateToken(user.id, user.role),
       },
     });
@@ -71,6 +72,7 @@ const loginUser = asyncHandler(async (req, res) => {
         name: user.name,
         email: user.email,
         role: user.role,
+        profile_pic: user.profile_pic,
         token: generateToken(user.id, user.role),
       },
     });
@@ -97,6 +99,7 @@ const getMe = asyncHandler(async (req, res) => {
         name: user.name,
         email: user.email,
         role: user.role,
+        profile_pic: user.profile_pic,
       },
     });
   } else {
@@ -129,6 +132,7 @@ const updateProfile = asyncHandler(async (req, res) => {
       name: updatedUser.name,
       email: updatedUser.email,
       role: updatedUser.role,
+      profile_pic: updatedUser.profile_pic,
     },
   });
 });
@@ -156,10 +160,72 @@ const changePassword = asyncHandler(async (req, res) => {
   }
 });
 
+/**
+ * @desc    Upload user profile avatar
+ * @route   PUT /api/v1/auth/profile/avatar
+ * @access  Private
+ */
+const updateAvatar = asyncHandler(async (req, res) => {
+  const { profile_pic } = req.body;
+  if (!profile_pic) {
+    res.status(400);
+    throw new Error('Please provide an image payload');
+  }
+
+  const user = await findUserById(req.user.id);
+  if (!user) {
+    res.status(404);
+    throw new Error('User not found');
+  }
+
+  const updatedUser = await updateProfilePic(req.user.id, profile_pic);
+
+  res.status(200).json({
+    success: true,
+    data: {
+      id: updatedUser.id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      role: updatedUser.role,
+      profile_pic: updatedUser.profile_pic,
+      token: generateToken(updatedUser.id, updatedUser.role), // Optional, but helps cache
+    },
+  });
+});
+
+/**
+ * @desc    Delete user profile avatar
+ * @route   DELETE /api/v1/auth/profile/avatar
+ * @access  Private
+ */
+const deleteAvatar = asyncHandler(async (req, res) => {
+  const user = await findUserById(req.user.id);
+  if (!user) {
+    res.status(404);
+    throw new Error('User not found');
+  }
+
+  const updatedUser = await updateProfilePic(req.user.id, null);
+
+  res.status(200).json({
+    success: true,
+    data: {
+      id: updatedUser.id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      role: updatedUser.role,
+      profile_pic: updatedUser.profile_pic,
+      token: generateToken(updatedUser.id, updatedUser.role),
+    },
+  });
+});
+
 module.exports = {
   registerUser,
   loginUser,
   getMe,
   updateProfile,
   changePassword,
+  updateAvatar,
+  deleteAvatar,
 };
