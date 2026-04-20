@@ -180,8 +180,11 @@ const Views = {
                                     let badgeClass = 'badge-upcoming';
                                     
                                     if (u.attempt_id) {
-                                        status = 'Completed';
+                                        status = 'COMPLETED';
                                         badgeClass = 'badge-completed';
+                                    } else if (u.active_attempt_id) {
+                                        status = 'IN PROGRESS';
+                                        badgeClass = 'badge-live';
                                     } else if (now >= start && (!end || now <= end)) {
                                         status = 'LIVE NOW';
                                         badgeClass = 'badge-live';
@@ -204,10 +207,10 @@ const Views = {
                                                 </div>
                                                 
                                                 <div style="text-align: right; min-width: 150px">
-                                                    ${status === 'LIVE NOW' ? `
-                                                        <button class="btn btn-primary" style="width: 100%; padding: 1rem" onclick="window.location.hash='#/exam/${u.id}'">INITIALIZE TERMINAL</button>
-                                                    ` : status === 'Completed' ? `
-                                                        <button class="btn btn-outline" style="width: 100%; padding: 1rem; border-color: var(--success); color: var(--success); cursor: default">ARCHIVED</button>
+                                                    ${status === 'LIVE NOW' || status === 'IN PROGRESS' ? `
+                                                        <button class="btn btn-primary" style="width: 100%; padding: 1rem" onclick="window.location.hash='#/exam/${u.id}'">${status === 'IN PROGRESS' ? 'RESUME SESSION' : 'INITIALIZE TERMINAL'}</button>
+                                                    ` : status === 'COMPLETED' ? `
+                                                        <button class="btn btn-outline" style="width: 100%; padding: 1rem; border-color: var(--success); color: var(--success); cursor: default"><i class="fas fa-check-circle" style="margin-right: 0.5rem"></i> ALREADY TAKEN</button>
                                                     ` : `
                                                         <div class="v2-timer" data-until="${u.start_time}">00:00:00</div>
                                                         <div style="font-size: 0.6rem; color: var(--text-muted); margin-top: 0.25rem; font-weight: 700; letter-spacing: 0.1em">TILL DEPLOYMENT</div>
@@ -922,9 +925,9 @@ const Views = {
                                 <div>Scheduled: ${new Date(e.start_time).toLocaleDateString()}</div>
                                 <div style="margin-top: 0.25rem">Threshold: ${e.passing_score}% Accuracy</div>
                             </div>
-                            ${type === 'live' ? `<button class="btn btn-primary" onclick="window.location.hash='#/exam/${e.id}'">Initialize</button>` : ''}
+                            ${type === 'live' ? `<button class="btn btn-primary" onclick="window.location.hash='#/exam/${e.id}'">${e.isInProgress ? 'Resume Protocol' : 'Initialize Session'}</button>` : ''}
                             ${type === 'upcoming' ? `<div class="v2-timer" data-until="${e.start_time}">00:00:00</div>` : ''}
-                            ${type === 'completed' ? `<button class="btn btn-outline" style="border-color: var(--success); color: var(--success); cursor: default">Verified</button>` : ''}
+                            ${type === 'completed' ? `<button class="btn btn-outline" style="border-color: var(--success); color: var(--success); cursor: default"><i class="fas fa-history" style="margin-right:0.5rem"></i> Taken</button>` : ''}
                         </div>
                     </div>
                 `).join('')}

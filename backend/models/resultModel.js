@@ -216,12 +216,13 @@ const getStudentDashboardStats = async (userId) => {
   const upcomingSql = `
     SELECT e.*, 
     (SELECT COUNT(*) FROM questions q WHERE q.exam_id = e.id) as question_count,
-    (SELECT id FROM attempts WHERE user_id = ? AND exam_id = e.id AND submit_time IS NOT NULL LIMIT 1) as attempt_id
+    (SELECT id FROM attempts WHERE user_id = ? AND exam_id = e.id AND submit_time IS NOT NULL LIMIT 1) as attempt_id,
+    (SELECT id FROM attempts WHERE user_id = ? AND exam_id = e.id AND submit_time IS NULL LIMIT 1) as active_attempt_id
     FROM exams e 
     WHERE e.is_published = 1 AND (e.end_time > datetime('now') OR e.end_time IS NULL)
     ORDER BY e.start_time ASC
   `;
-  const upcomingRes = await client.execute({ sql: upcomingSql, args: [userId] });
+  const upcomingRes = await client.execute({ sql: upcomingSql, args: [userId, userId] });
   const allUpcoming = upcomingRes.rows;
 
   // Categorize for summary

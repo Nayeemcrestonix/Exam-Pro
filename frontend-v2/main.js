@@ -291,13 +291,16 @@ const App = {
             const exams = res.data || res;
             const now = new Date();
             
-            // Check attempts to find completed ones
+            // Check attempts to find completed and in-progress ones
             const attemptsRes = await API.get('/attempts');
-            const completedIds = (attemptsRes.data || attemptsRes).map(a => a.exam_id);
+            const allAttempts = attemptsRes.data || attemptsRes;
+            const completedIds = allAttempts.filter(a => a.submit_time).map(a => a.exam_id);
+            const inProgressIds = allAttempts.filter(a => !a.submit_time).map(a => a.exam_id);
 
             const processed = exams.map(e => ({
                 ...e,
-                isCompleted: completedIds.includes(e.id)
+                isCompleted: completedIds.includes(e.id),
+                isInProgress: inProgressIds.includes(e.id)
             }));
 
             this.currentExamsData = {
